@@ -22,11 +22,11 @@ df = df.withColumn("price", df["price"].cast(DoubleType()))  # Cast price to num
 df = df.fillna({"horsepower": df.agg({"horsepower": "mean"}).first()[0],
                 "price": df.agg({"price": "mean"}).first()[0]})
 
-# Feature Selection and Encoding
+# Feature selection and encoding
 selected_features = ["horsepower", "engine-size", "num-of-doors", "fuel-type", "price"]
 df = df.select(selected_features)
 
-# Convert Categorical Variables
+# Convert categorical variables
 fuel_indexer = StringIndexer(inputCol="fuel-type", outputCol="fuel-type-index")
 df = fuel_indexer.fit(df).transform(df)
 
@@ -68,5 +68,5 @@ predictions.select("prediction", "price") \
     .write.mode("overwrite") \
     .csv("/home/sat3812/Desktop/project/predictions", header=True)
 
-# Save the Linear Regression model
+# Save the linear regression model
 lr_model.save("/home/sat3812/Desktop/project/lr_model")
